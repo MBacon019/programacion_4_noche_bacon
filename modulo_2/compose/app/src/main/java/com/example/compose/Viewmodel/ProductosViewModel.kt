@@ -3,8 +3,8 @@ package com.example.compose.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.tuapp.catalogo.model.Producto
-import com.tuapp.catalogo.model.productosDeMuestra
+import com.example.catalogo.model.Producto
+import com.example.catalogo.model.productosDeMuestra
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
