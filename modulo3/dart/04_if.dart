@@ -19,7 +19,7 @@ void main() {
   String? ciudad;
   String display = ciudad != null ? ciudad.toUpperCase() : 'Sin ciudad';
 
-  // Forma más concisa con ??
+  // Forma más concisa con ??                                                                                               
   String display2 = ciudad?.toUpperCase() ?? 'Sin ciudad';
   print(display2);  // Sin ciudad
 }
