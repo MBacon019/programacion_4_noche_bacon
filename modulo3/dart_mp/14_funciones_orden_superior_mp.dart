@@ -1,16 +1,16 @@
 void main() {
-  final precios = [29.99, 49.50, 15.00, 99.99];
+  final costos = [80.0, 50.0, 120.0, 200.0];
 
   // map devuelve un Iterable con cada elemento transformado
-  final preciosConIva = precios.map((p) => p * 1.15);
-  print(preciosConIva.toList());
-  // [34.4885, 56.925, 17.25, 114.9885]
+  final costosConIva = costos.map((c) => c * 1.19);
+  print(costosConIva.toList());
+  // [95.2, 59.5, 142.8, 238.0]
 
   // map sobre Strings
-  final endpoints = ['/usuarios', '/productos', '/pedidos'];
-  final urls = endpoints.map((e) => 'https://api.ejemplo.com$e');
+  final rutas = ['/pacientes', '/consultas', '/expedientes'];
+  final urls  = rutas.map((r) => 'https://api.hospital.com$r');
   print(urls.toList());
-  // [https://api.ejemplo.com/usuarios, ...]
+  // [https://api.hospital.com/pacientes, ...]
 
 
 // Temperatura:
@@ -23,18 +23,18 @@ void main() {
   print(normales.toList());   // [36.1, 36.5]
 
 
-// Venta:
-    final ventas = [1500.0, 2300.0, 980.0, 3100.0, 750.0];
+// Facturación:
+    final facturacion = [1500.0, 2300.0, 980.0, 3100.0, 750.0];
 
   // reduce — combina todos los elementos en uno
-  final total = ventas.reduce((acum, venta) => acum + venta);
+  final total = facturacion.reduce((acum, pago) => acum + pago);
   print('Total: \$${total.toStringAsFixed(2)}');  // Total: $8630.00
 
   // fold — como reduce pero con valor inicial (más seguro con listas vacías)
-  final totalFold = ventas.fold(0.0, (acum, venta) => acum + venta);
+  final totalFold = facturacion.fold(0.0, (acum, pago) => acum + pago);
   print('Total (fold): \$${totalFold.toStringAsFixed(2)}');
 
   // Encontrar el máximo
-  final maximo = ventas.reduce((a, b) => a > b ? a : b);
-  print('Mayor venta: \$$maximo');  // Mayor venta: $3100.0
+  final maximo = facturacion.reduce((a, b) => a > b ? a : b);
+  print('Mayor factura: \$$maximo');  // Mayor factura: $3100.0
 }
