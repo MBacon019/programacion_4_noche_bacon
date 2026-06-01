@@ -14,8 +14,9 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.tuapp.catalogo.viewmodel.ProductosViewModel
-import com.tuapp.catalogo.viewmodel.UiState
+import com.example.compose.viewmodel.ProductosViewModel
+import com.example.compose.viewmodel.UiState
+import com.example.compose.ui.viewmodel.TarjetaProductoSimple
 
 @Composable
 fun Paso02_UiStateScreen(vm: ProductosViewModel = viewModel()) {

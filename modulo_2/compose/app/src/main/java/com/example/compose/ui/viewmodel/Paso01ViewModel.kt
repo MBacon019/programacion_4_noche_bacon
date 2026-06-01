@@ -15,7 +15,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.compose.model.Producto
+import com.example.catalogo.model.Producto
 import com.example.compose.viewmodel.ProductosViewModel
 
 @Composable

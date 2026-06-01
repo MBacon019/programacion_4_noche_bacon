@@ -1,6 +1,6 @@
 fun main() {
-    val nombre = "Heymi"
-    val edad: Int = 20
+    val nombre = "Marcelo"
+    val edad: Int = 26
     var contador = 0 
     contador = contador + 1
     
