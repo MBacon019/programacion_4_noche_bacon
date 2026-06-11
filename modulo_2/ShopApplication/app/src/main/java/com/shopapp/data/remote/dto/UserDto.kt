@@ -5,6 +5,8 @@ import com.google.gson.annotations.SerializedName
 import com.shopapp.domain.model.User
 import com.shopapp.domain.model.UserPayload
 
+
+
 data class UserDto(
     val id:         Int,
     val username:   String,
@@ -15,6 +17,8 @@ data class UserDto(
     @SerializedName("is_active")   val isActive:   Boolean,
     @SerializedName("date_joined") val dateJoined: String,
     @SerializedName("num_orders")  val numOrders:  Int,
+    @SerializedName("avatar_url")
+    val avatarUrl:  String? = null,    // ← nuevo campo
 )
 
 data class UserRequestDto(
@@ -51,6 +55,9 @@ fun UserDto.toDomain() = User(
     isActive   = isActive,
     dateJoined = dateJoined,
     numOrders  = numOrders,
+    avatarUrl   = avatarUrl,           // ← nuevo campo
+
+
 )
 
 fun UserPayload.toRequest() = UserRequestDto(

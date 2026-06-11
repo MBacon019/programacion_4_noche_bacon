@@ -1,19 +1,22 @@
 // data/repository/UserRepositoryImpl.kt
 package com.shopapp.data.repository
 
+import android.content.Context
+import android.net.Uri
 import com.shopapp.data.remote.api.UserApi
-import com.shopapp.data.remote.dto.UserRequestDto
 import com.shopapp.data.remote.dto.toDomain
 import com.shopapp.data.remote.dto.toRequest
 import com.shopapp.domain.model.User
 import com.shopapp.domain.model.UserPayload
 import com.shopapp.domain.repository.UserRepository
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class UserRepositoryImpl @Inject constructor(
     private val api: UserApi,
+    @ApplicationContext private val context: Context,
 ) : UserRepository {
 
     override suspend fun getUsers(
@@ -46,7 +49,19 @@ class UserRepositoryImpl @Inject constructor(
         if (response.isSuccessful) response.body()!!.toDomain()
         else error("Error ${response.code()}: ${response.errorBody()?.string()}")
     }
-
+    override suspend fun getProfile(): Result<User> = runCatching {
+        val response = api.getProfile()
+        if (response.isSuccessful) response.body()!!.toDomain()
+        else error(response.errorBody()?.string() ?: "Error ${response.code()}")
+    }
+    override suspend fun uploadAvatar(uri: Uri): Result<String> = runCatching {
+        val part     = uri.toMultipart(context, fieldName = "avatar")
+        val response = api.uploadAvatar(part)
+        if (response.isSuccessful) {
+            response.body()?.avatarUrl ?: error("El servidor no devolvió una URL de avatar")} else {
+            error(response.errorBody()?.string() ?: "Error ${response.code()}")
+        }
+    }
     override suspend fun deleteUser(id: Int): Result<Unit> = runCatching {
         val response = api.deleteUser(id)
         if (!response.isSuccessful) error("Error ${response.code()}")
