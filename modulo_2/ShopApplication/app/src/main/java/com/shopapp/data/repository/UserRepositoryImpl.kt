@@ -4,8 +4,10 @@ package com.shopapp.data.repository
 import android.content.Context
 import android.net.Uri
 import com.shopapp.data.remote.api.UserApi
+import com.shopapp.data.remote.dto.SendNotificationDto
 import com.shopapp.data.remote.dto.toDomain
 import com.shopapp.data.remote.dto.toRequest
+import com.shopapp.domain.model.NotificationResult
 import com.shopapp.domain.model.User
 import com.shopapp.domain.model.UserPayload
 import com.shopapp.domain.repository.UserRepository
@@ -49,19 +51,23 @@ class UserRepositoryImpl @Inject constructor(
         if (response.isSuccessful) response.body()!!.toDomain()
         else error("Error ${response.code()}: ${response.errorBody()?.string()}")
     }
+
     override suspend fun getProfile(): Result<User> = runCatching {
         val response = api.getProfile()
         if (response.isSuccessful) response.body()!!.toDomain()
         else error(response.errorBody()?.string() ?: "Error ${response.code()}")
     }
+
     override suspend fun uploadAvatar(uri: Uri): Result<String> = runCatching {
         val part     = uri.toMultipart(context, fieldName = "avatar")
         val response = api.uploadAvatar(part)
         if (response.isSuccessful) {
-            response.body()?.avatarUrl ?: error("El servidor no devolvió una URL de avatar")} else {
+            response.body()?.avatarUrl ?: error("El servidor no devolvió una URL de avatar")
+        } else {
             error(response.errorBody()?.string() ?: "Error ${response.code()}")
         }
     }
+
     override suspend fun deleteUser(id: Int): Result<Unit> = runCatching {
         val response = api.deleteUser(id)
         if (!response.isSuccessful) error("Error ${response.code()}")
@@ -85,4 +91,21 @@ class UserRepositoryImpl @Inject constructor(
             )
         } else error("Error ${response.code()}")
     }
+
+    // ── Notificaciones de staff ───────────────────────────────────────────────
+
+    override suspend fun sendNotification(
+        subject: String,
+        message: String,
+        userId:  Int?,
+    ): Result<NotificationResult> =
+        runCatching {
+            val response = api.sendNotification(SendNotificationDto(subject, message, userId))
+            if (response.isSuccessful) {
+                val dto = response.body() ?: error("Respuesta vacía del servidor")
+                NotificationResult(dto.detail, dto.sent, dto.failed)
+            } else {
+                error(response.errorBody()?.string() ?: "Error ${response.code()}")
+            }
+        }
 }
