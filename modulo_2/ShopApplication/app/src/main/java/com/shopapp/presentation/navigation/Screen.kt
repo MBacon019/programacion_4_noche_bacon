@@ -3,8 +3,10 @@ package com.shopapp.presentation.navigation
 
 sealed class Screen(val route: String) {
     // Auth
-    data object Login    : Screen("login")
-    data object Register : Screen("register")
+    data object Login                : Screen("login")
+    data object Register             : Screen("register")
+    data object ForgotPassword       : Screen("forgot-password")
+    data object ResetPasswordConfirm : Screen("reset-password-confirm")
 
     // Public
     data object Home     : Screen("home")
@@ -19,7 +21,8 @@ sealed class Screen(val route: String) {
     data class  OrderDetail(val id: Int = 0) : Screen("orders/{id}") {
         fun createRoute(id: Int) = "orders/$id"
     }
-    data object Profile : Screen("profile")
+    data object Profile          : Screen("profile")
+    data object SendNotification : Screen("send-notification")  // ← nuevo
 
     // Admin
     data object AdminDashboard  : Screen("admin")

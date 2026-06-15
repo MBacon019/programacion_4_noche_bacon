@@ -21,16 +21,16 @@ import com.shopapp.theme.*
 
 @Composable
 fun LoginScreen(
-    onLoginSuccess:  (isStaff: Boolean) -> Unit,
+    onLoginSuccess:       (isStaff: Boolean) -> Unit,
     onNavigateToRegister: () -> Unit,
-    viewModel: AuthViewModel = hiltViewModel(),
+    onForgotPassword:     () -> Unit = {},   // ← nuevo parámetro
+    viewModel:            AuthViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
     var username by remember { mutableStateOf("") }
     var password by remember { mutableStateOf("") }
 
-    // Navegar cuando el login es exitoso
     LaunchedEffect(uiState) {
         if (uiState is AuthUiState.Success) {
             val user = (uiState as AuthUiState.Success).user
@@ -54,7 +54,6 @@ fun LoginScreen(
                 .padding(top = 80.dp, bottom = 40.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
         ) {
-            // Logo
             Text(
                 text       = "ShopApp",
                 fontSize   = 36.sp,
@@ -69,20 +68,18 @@ fun LoginScreen(
             )
             Spacer(Modifier.height(40.dp))
 
-            // Card del formulario
             Surface(
-                shape            = MaterialTheme.shapes.large,
-                color            = Surface,
-                tonalElevation   = 0.dp,
-                modifier         = Modifier.fillMaxWidth(),
+                shape          = MaterialTheme.shapes.large,
+                color          = Surface,
+                tonalElevation = 0.dp,
+                modifier       = Modifier.fillMaxWidth(),
             ) {
                 Column(modifier = Modifier.padding(24.dp)) {
 
-                    // Error general
                     if (errorMsg != null) {
                         Surface(
-                            color  = Error.copy(alpha = 0.1f),
-                            shape  = MaterialTheme.shapes.small,
+                            color    = Error.copy(alpha = 0.1f),
+                            shape    = MaterialTheme.shapes.small,
                             modifier = Modifier.fillMaxWidth(),
                         ) {
                             Text(
@@ -95,7 +92,6 @@ fun LoginScreen(
                         Spacer(Modifier.height(16.dp))
                     }
 
-                    // Campo usuario
                     ShopTextField(
                         value         = username,
                         onValueChange = { username = it; viewModel.clearError() },
@@ -106,7 +102,6 @@ fun LoginScreen(
                     )
                     Spacer(Modifier.height(16.dp))
 
-                    // Campo contraseña
                     ShopTextField(
                         value         = password,
                         onValueChange = { password = it; viewModel.clearError() },
@@ -119,19 +114,25 @@ fun LoginScreen(
                     )
                     Spacer(Modifier.height(24.dp))
 
-                    // Botón
                     ShopButton(
                         text      = "Iniciar sesión",
                         onClick   = { viewModel.login(username, password) },
                         isLoading = isLoading,
                         enabled   = username.isNotBlank() && password.isNotBlank(),
                     )
+
+                    // ← nuevo: enlace de recuperación de contraseña
+                    TextButton(
+                        onClick  = onForgotPassword,
+                        modifier = Modifier.align(Alignment.CenterHorizontally),
+                    ) {
+                        Text("¿Olvidaste tu contraseña?")
+                    }
                 }
             }
 
             Spacer(Modifier.height(24.dp))
 
-            // Link a registro
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Text(
                     text  = "¿No tienes cuenta? ",
@@ -140,9 +141,9 @@ fun LoginScreen(
                 )
                 TextButton(onClick = onNavigateToRegister) {
                     Text(
-                        text  = "Regístrate",
-                        color = Accent,
-                        style = MaterialTheme.typography.bodyMedium,
+                        text       = "Regístrate",
+                        color      = Accent,
+                        style      = MaterialTheme.typography.bodyMedium,
                         fontWeight = FontWeight.SemiBold,
                     )
                 }
