@@ -25,7 +25,7 @@ import com.shopapp.presentation.ui.auth.RegisterScreen
 import com.shopapp.presentation.ui.auth.ResetPasswordConfirmScreen
 import com.shopapp.presentation.ui.client.orders.OrderDetailScreen
 import com.shopapp.presentation.ui.client.orders.OrdersScreen
-import com.shopapp.presentation.ui.client.profile.ProfileScreen
+import com.shopapp.presentation.ui.client.profiles.ProfileScreen
 import com.shopapp.presentation.ui.uipublic.cart.CartBottomSheet
 import com.shopapp.presentation.ui.uipublic.catalog.CatalogScreen
 import com.shopapp.presentation.ui.uipublic.home.HomeScreen
@@ -221,13 +221,14 @@ fun NavGraph(
                     }
                 } else {
                     ProfileScreen(
-                        onLogout = {
+                        authViewModel      = authViewModel,
+                        onLogout           = {
                             authViewModel.logout()
                             navController.navigate(Screen.Login.route) {
                                 popUpTo(0) { inclusive = true }
                             }
                         },
-                        onSendNotification = { navController.navigate(Screen.SendNotification.route) }, // ← nuevo
+                        onSendNotification = { navController.navigate(Screen.SendNotification.route) },
                     )
                 }
             }

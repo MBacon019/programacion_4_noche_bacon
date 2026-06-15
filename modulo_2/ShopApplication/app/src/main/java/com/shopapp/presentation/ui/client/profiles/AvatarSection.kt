@@ -1,5 +1,5 @@
 // presentation/ui/client/profile/AvatarSection.kt
-package com.shopapp.presentation.ui.client.profile
+package com.shopapp.presentation.ui.client.profiles
 
 import android.net.Uri
 import androidx.activity.compose.rememberLauncherForActivityResult
